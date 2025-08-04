@@ -1,0 +1,14 @@
+[env]
+mode = "local" # local | test | prod
+
+[serve]
+port = 8089
+# stoptime = "6000ms"  # 服务收到关闭请求后, 等待多少时间等现有业务收尾
+# pnumber = 0  # 不推荐普通开发设置这个值, 0 默认系统配置, > 0 改变 runtime.GOMAXPROCS
+
+[log]
+level = "debug" # debug | info | warn | error
+
+[mysql]
+# docker run -d --name mysql -e MYSQL_ROOT_PASSWORD=123456 -p 3306:3306 mysql
+main = "mysql -uroot -p123456 -hlocalhost -P3306 resource_ai_drama"

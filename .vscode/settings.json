@@ -1,0 +1,21 @@
+{
+    "go.toolsManagement.autoUpdate": true,
+    "go.testEnvVars": {},
+    "go.testFlags": [
+        "-v",
+        "-count=1"
+    ],
+    "go.useLanguageServer": true, // 启用 gopls 作为 Go 语言服务器
+    "editor.formatOnSave": true, // 每次保存时自动格式化代码
+    "gopls": {
+        "ui.diagnostic.staticcheck": true, // 启用 StaticCheck 代码分析
+        "ui.completion.usePlaceholders": true, // 启用代码补全占位符
+        "formatting.gofumpt": true, // 使用更严格的 gofumpt 代码格式
+        "hoverKind": "FullDocumentation" // 悬停时显示完整文档
+    },
+    "[go]": {
+        "editor.defaultFormatter": "golang.go",
+        "editor.formatOnSave": true // 可选：启用自动格式化
+    },
+    "go.testTimeout": "300s",
+}

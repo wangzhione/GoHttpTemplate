@@ -1,0 +1,55 @@
+# 忽略 Go 编译生成的二进制文件
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+
+# 忽略操作系统生成的文件
+.DS_Store
+Thumbs.db
+
+# 忽略 Go 模块缓存和依赖
+/go/pkg/
+/go/bin/
+/go.mod
+/go.sum
+
+# 忽略构建过程中产生的临时文件
+*.log
+*.out
+*.tmp
+*.swp
+
+# 忽略 Git 文件
+.git
+.gitignore
+.gitmodules
+
+# 忽略 IDE 配置文件
+.idea/
+.vscode/
+
+# 忽略文档和其他不必要的文件
+*.md
+*.txt
+*.json
+*.yaml
+*.toml
+*.sql
+*.log
+
+# 忽略测试相关的文件夹
+/testdata/
+/coverage/
+
+# 忽略生成的构建目录
+/build/
+/dist/
+/bin/
+/target/
+
+input/
+output/
+logs/

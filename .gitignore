@@ -30,3 +30,25 @@ go.work.sum
 # Editor/IDE
 # .idea/
 # .vscode/
+
+/.idea
+/bin/*
+/lbin/*
+/target/*
+/test/*
+/logs/*
+/api/*/nacos*
+/daemon/*/nacos*
+/nacos*
+.DS_Store
+**/venv/*
+/daemon/consumer/kafka-proxy/kafka-proxy.tar.gz
+/search/
+/search-store/
+GeoIP2-City.mmdb
+/tmp/
+
+# 中间生成的文件排除
+input/
+output/
+logs/
