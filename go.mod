@@ -3,7 +3,7 @@ module github.com/wangzhione/gohttptemplate
 go 1.24
 
 require (
-	github.com/wangzhione/sbp v0.0.18
+	github.com/wangzhione/sbp v0.0.19-0.20250811071237-5b2736b363e2
 	go.uber.org/automaxprocs v1.6.0
 )
 
