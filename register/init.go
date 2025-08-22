@@ -8,7 +8,7 @@ import (
 
 	_ "net/http/pprof"
 
-	_ "go.uber.org/automaxprocs"
+	_ "go.uber.org/automaxprocs" // 下个 go 1.25.1 版本起, 尝试自适应设置 P 的数量, 清理这部分功能
 
 	"github.com/wangzhione/sbp/chain"
 	"github.com/wangzhione/sbp/system"
