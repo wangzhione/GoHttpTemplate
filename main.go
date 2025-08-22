@@ -18,7 +18,7 @@ var (
 	fpath = flag.String("f", "resource/etc/prod.toml", "The config file")
 
 	// addr 默认监听地址, 用于 -a 输入服务监听地址
-	addrs = flag.String("a", "", "The address to listen on or (0.0.0.0:10000)")
+	addrs = flag.String("a", "", "The address to listen on or (0.0.0.0:8089)")
 )
 
 func main() {

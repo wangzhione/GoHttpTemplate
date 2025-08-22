@@ -33,7 +33,7 @@ type Config struct {
 
 var (
 	// DefaultServePort 默认的服务端口, 可以随着配置改变
-	DefaultServePort uint16 = 10000
+	DefaultServePort uint16 = 8089
 
 	// DefaultServeStopTime 服务等待时间, 默认 7 s
 	DefaultServeStopTime time.Duration = 7000 * time.Millisecond
