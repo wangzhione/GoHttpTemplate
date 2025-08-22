@@ -3,7 +3,7 @@ module github.com/wangzhione/gohttptemplate
 go 1.24
 
 require (
-	github.com/wangzhione/sbp v0.0.19-0.20250811071237-5b2736b363e2
+	github.com/wangzhione/sbp v0.0.19-0.20250820064140-982aeb8f3958
 	go.uber.org/automaxprocs v1.6.0
 )
 
@@ -16,5 +16,5 @@ require (
 	github.com/power-devops/perfstat v0.0.0-20240221224432-82ca36839d55 // indirect
 	github.com/shirou/gopsutil/v4 v4.25.7 // indirect
 	github.com/yusufpapurcu/wmi v1.2.4 // indirect
-	golang.org/x/sys v0.34.0 // indirect
+	golang.org/x/sys v0.35.0 // indirect
 )

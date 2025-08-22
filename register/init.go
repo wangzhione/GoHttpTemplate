@@ -10,22 +10,22 @@ import (
 
 	_ "go.uber.org/automaxprocs"
 
-	"github.com/wangzhione/gohttptemplate/global/config"
 	"github.com/wangzhione/sbp/chain"
 	"github.com/wangzhione/sbp/system"
 
+	"github.com/wangzhione/gohttptemplate/configs"
 	_ "github.com/wangzhione/gohttptemplate/internal/logic"
 )
 
 // Init 启动之前的环境初始化 :)
 func Init(ctx context.Context, path string) (err error) {
 	// init config
-	if err = config.Init(ctx, path); err != nil {
+	if err = configs.Init(ctx, path); err != nil {
 		return
 	}
 
 	// slog 默认配置初始化
-	switch config.G.Log.Level {
+	switch configs.G.Log.Level {
 	case "info":
 		chain.EnableLevel = slog.LevelInfo
 	case "warn":
@@ -47,15 +47,15 @@ func Init(ctx context.Context, path string) (err error) {
 		slog.String("GOOS", runtime.GOOS),
 		slog.String("BuildVersion", system.BuildVersion),
 		slog.String("GitVersion", system.GitVersion),
-		slog.Int("G.Serve.PNumber", config.G.Serve.PNumber),
+		slog.Int("G.Serve.PNumber", configs.G.Serve.PNumber),
 	)
 
 	// 在 Docker or Kubernetes 程序获取的是宿主机的 CPU 核数导致 GOMAXPROCS 设置的过大。
 	// 比如宿主物理机是 48cores，而实际 container 只有 4cores。P 导致系统线程过多，会增加上线文切换的负担，白白浪费 CPU。
 	// automaxprocs 通过读取系统的 CPU 核心数和 Cgroups 限制等信息来动态调整 P 的数量
 	// 自适应设置 procs @https://github.com/uber-go/automaxprocs
-	if config.G.Serve.PNumber > 0 {
-		runtime.GOMAXPROCS(config.G.Serve.PNumber)
+	if configs.G.Serve.PNumber > 0 {
+		runtime.GOMAXPROCS(configs.G.Serve.PNumber)
 	}
 
 	// init 操作, 放在这后面 👇
