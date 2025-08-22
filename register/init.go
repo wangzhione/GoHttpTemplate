@@ -47,6 +47,7 @@ func Init(ctx context.Context, path string) (err error) {
 		slog.String("GOOS", runtime.GOOS),
 		slog.String("BuildVersion", system.BuildVersion),
 		slog.String("GitVersion", system.GitVersion),
+		slog.String("GitCommitTime", system.GitCommitTime),
 		slog.Int("G.Serve.PNumber", configs.G.Serve.PNumber),
 	)
 

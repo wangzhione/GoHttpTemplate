@@ -20,10 +20,10 @@ package handler
 // 500-599 服务内部错误
 
 // ErrRequest error 多用于偷懒, 定位是 client error
-var ErrRequest = &BizError{Code: 400000001, Message: "request param error"}
+var ErrRequest = &BizError{Code: 400000404, Message: "request param error"}
 
 // ErrService 服务内部错误
-var ErrService = &BizError{Code: 500000001, Message: "service internal error"}
+var ErrService = &BizError{Code: 500000501, Message: "service internal error"}
 
 // ErrorResponse error server 不是服务内部错误, 也不是 client 错误, 就是单纯想回复请求方错误
 func ErrorResponse(message string) *BizError {
@@ -31,20 +31,12 @@ func ErrorResponse(message string) *BizError {
 }
 
 func ErrorParam(message string) *BizError {
-	return &BizError{
-		Code:    400000002,
-		Message: message,
-	}
+	return &BizError{Code: 400000002, Message: message}
 }
 
-var errorInternalCode int = 500000000 + 600
-
-// ErrorInternal 内部错误定义, code = ErrorInternalCode()
-// 添加 var ErrInternalA = ErrorInternal(message string) 方便直接使用
-func ErrorInternal(code int, message string) *BizError {
-	errorInternalCode++
-	return &BizError{
-		Code:    errorInternalCode,
-		Message: message,
-	}
+// ErrorInternal 内部错误定义
+func ErrorInternal(message string) *BizError {
+	return &BizError{Code: 500000601, Message: message}
 }
+
+// 后面是自定义的业务 Error

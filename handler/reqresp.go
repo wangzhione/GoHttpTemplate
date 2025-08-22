@@ -48,12 +48,12 @@ func NewResponse[T any](resp T, err error) (response *Response[T]) {
 		return
 	}
 
-	// 默认 400
-	response.Code = 400
-
 	// 获取 error message {text} and code {status}
 	if coder, ok := err.(Coder); ok {
 		response.Code = coder.GetCode()
+	} else {
+		// 默认 400
+		response.Code = 400
 	}
 
 	if messager, ok := err.(Messager); ok {

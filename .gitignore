@@ -52,3 +52,5 @@ GeoIP2-City.mmdb
 input/
 output/
 logs/
+
+go.sum
