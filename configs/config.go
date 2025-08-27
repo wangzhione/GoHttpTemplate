@@ -19,7 +19,6 @@ type Config struct {
 	Serve struct {
 		Port     uint16        `toml:"port"`
 		StopTime time.Duration `toml:"stoptime"` // 停止时间配置格式 7s 或 2000ms
-		PNumber  int           `toml:"pnumber"`
 	} `toml:"serve"`
 
 	Log struct {

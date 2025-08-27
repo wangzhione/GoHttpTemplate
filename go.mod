@@ -1,11 +1,8 @@
 module github.com/wangzhione/gohttptemplate
 
-go 1.24
+go 1.25
 
-require (
-	github.com/wangzhione/sbp v0.0.19-0.20250822073354-e9c24da8d063
-	go.uber.org/automaxprocs v1.6.0
-)
+require github.com/wangzhione/sbp v0.0.19-0.20250822073354-e9c24da8d063
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
