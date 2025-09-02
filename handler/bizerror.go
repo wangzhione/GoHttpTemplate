@@ -6,7 +6,7 @@ import (
 
 // BizError 业务错误结构体
 type BizError struct {
-	Code    int    // 错误代码
+	Code    string // 错误代码
 	Message string // 错误消息
 	Err     error  // 首次 error
 }
@@ -14,15 +14,15 @@ type BizError struct {
 // Error 实现 error 接口
 func (e *BizError) Error() string {
 	if e.Err != nil {
-		return fmt.Sprintf("<%d, %s> %v", e.Code, e.Message, e.Err)
+		return fmt.Sprintf("[%s] %s %v", e.Code, e.Message, e.Err)
 	}
-	return fmt.Sprintf("<%d, %s>", e.Code, e.Message)
+	return fmt.Sprintf("[%s] %s", e.Code, e.Message)
 }
 
 func (e *BizError) Unwrap() error { return e.Err }
 
 // GetCode 获取错误代码
-func (e *BizError) GetCode() int {
+func (e *BizError) GetCode() string {
 	return e.Code
 }
 
@@ -33,14 +33,13 @@ func (e *BizError) GetMessage() string {
 	}
 
 	if e.Err != nil {
-		return fmt.Sprintf("biz error code <%d> %s", e.Code, e.Err.Error())
+		return fmt.Sprintf("biz error code [%s] %s", e.Code, e.Err.Error())
 	}
-
-	return fmt.Sprintf("biz error code <%d>", e.Code)
+	return fmt.Sprintf("biz error code [%s]", e.Code)
 }
 
 // NewBizError 创建新的 BizError
-func NewBizError(code int, message string, errargs ...error) *BizError {
+func NewBizError(code, message string, errargs ...error) *BizError {
 	bizerr := &BizError{
 		Code:    code,
 		Message: message,

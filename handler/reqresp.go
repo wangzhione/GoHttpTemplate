@@ -23,14 +23,14 @@ var ErrCallInvalid = errors.New("error: call is invalid")
 
 // Response 统一返回 response base model
 type Response[T any] struct {
-	Code    int    `json:"code"`              // [200, 299] 都认为是 OK, 默认都是 200
+	Code    string `json:"code"`              // [200, 299] 都认为是 OK, 默认都是 200
 	Message string `json:"message,omitempty"` // 补充信息
 	Data    T      `json:"data,omitzero"`
 }
 
 // Coder 定义接口 GetCode 和 GetMessage 接口
 type Coder interface {
-	GetCode() int
+	GetCode() string
 }
 
 type Messager interface {
@@ -39,7 +39,7 @@ type Messager interface {
 
 func NewResponse[T any](resp T, err error) (response *Response[T]) {
 	response = &Response[T]{
-		Code:    http.StatusOK,
+		Code:    "200",
 		Message: "OK",
 		Data:    resp,
 	}
@@ -52,8 +52,8 @@ func NewResponse[T any](resp T, err error) (response *Response[T]) {
 	if coder, ok := err.(Coder); ok {
 		response.Code = coder.GetCode()
 	} else {
-		// 默认 400
-		response.Code = 400
+		// 默认 400 基础错误
+		response.Code = "400"
 	}
 
 	if messager, ok := err.(Messager); ok {
@@ -65,9 +65,15 @@ func NewResponse[T any](resp T, err error) (response *Response[T]) {
 	return
 }
 
+func (resp *Response[T]) SetOK(data T) {
+	resp.Code = "200"
+	resp.Message = "OK"
+	resp.Data = data
+}
+
 // OK 请求是否成功
 func (resp *Response[T]) OK() bool {
-	return resp.Code >= http.StatusOK && resp.Code < http.StatusMultipleChoices
+	return resp.Code == "200"
 }
 
 // Error 构建 error
@@ -88,12 +94,7 @@ func (resp *Response[T]) ErrorString() string {
 		return resp.Message
 	}
 
-	message := http.StatusText(resp.Code)
-	if len(message) != 0 {
-		return message
-	}
-
-	return fmt.Sprintf("response error code <%d>", resp.Code)
+	return fmt.Sprintf("response error code <%s>", resp.Code)
 }
 
 // ResponseWriterMethodError ResponseError 构建 error string, code 必须是严格 http code
@@ -104,10 +105,4 @@ func ResponseWriterMethodError(w http.ResponseWriter, code int) {
 
 func ResponseWriterMessage(w http.ResponseWriter, message string) {
 	fmt.Fprintf(w, `{""message:"%s"}`, message)
-}
-
-func (resp *Response[T]) SetOK(data T) {
-	resp.Code = http.StatusOK
-	resp.Message = "OK"
-	resp.Data = data
 }
