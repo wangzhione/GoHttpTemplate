@@ -10,7 +10,7 @@ BINARY := gohttptemplate
 # Clean   : make clean
 #
 # windows
-# $env:CGO_ENABLED=0; $env:GOOS="linux"; $env:GOARCH="amd64"; go build -o $(BINARY) main.go
+# $env:CGO_ENABLED="0"; $env:GOOS="linux"; $env:GOARCH="amd64"; go build -trimpath -buildvcs=true -o $(BINARY) main.go
 
 # or
 
