@@ -6,7 +6,7 @@ port = 8089
 # stoptime = "6000ms"  # 服务收到关闭请求后, 等待多少时间等现有业务收尾
 
 [log]
-level = "debug" # debug | info | warn | error
+level = "DEBUG" # DEBUG | INFO | WARN | ERROR
 
 [mysql]
 # docker run -d --name mysql -e MYSQL_ROOT_PASSWORD=123456 -p 3306:3306 mysql

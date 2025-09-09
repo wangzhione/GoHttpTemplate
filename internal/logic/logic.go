@@ -5,8 +5,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/wangzhione/gohttptemplate/handler"
 	"github.com/wangzhione/sbp/system"
+
+	"github.com/wangzhione/gohttptemplate/handler"
 )
 
 func init() {

@@ -11,7 +11,7 @@ import (
 var ctx = chain.Context()
 
 func TestConfigParse(t *testing.T) {
-	path := `../../resource/etc/prod.toml`
+	path := `../resource/etc/prod.toml`
 
 	cfg, err := tuml.ReadFile[*Config](ctx, path)
 	if err != nil {

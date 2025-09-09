@@ -23,7 +23,7 @@ var ErrCallInvalid = errors.New("error: call is invalid")
 
 // Response 统一返回 response base model
 type Response[T any] struct {
-	Code    string `json:"code"`              // [200, 299] 都认为是 OK, 默认都是 200
+	Code    string `json:"code"`              // 默认是 "200", 标识 OK
 	Message string `json:"message,omitempty"` // 补充信息
 	Data    T      `json:"data,omitzero"`
 }
@@ -100,9 +100,9 @@ func (resp *Response[T]) ErrorString() string {
 // ResponseWriterMethodError ResponseError 构建 error string, code 必须是严格 http code
 func ResponseWriterMethodError(w http.ResponseWriter, code int) {
 	w.WriteHeader(code)
-	fmt.Fprintf(w, `{"code":%d, "message:"%s"}`, code, http.StatusText(code))
+	fmt.Fprintf(w, `{"code":"%d", "message:"%s"}`, code, http.StatusText(code))
 }
 
 func ResponseWriterMessage(w http.ResponseWriter, message string) {
-	fmt.Fprintf(w, `{""message:"%s"}`, message)
+	fmt.Fprintf(w, `{"message":"%s"}`, message)
 }

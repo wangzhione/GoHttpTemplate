@@ -3,6 +3,7 @@ package configs
 
 import (
 	"context"
+	"strings"
 	"time"
 
 	"github.com/wangzhione/sbp/util/tuml"
@@ -43,6 +44,12 @@ func Init(ctx context.Context, path string) (err error) {
 	cfg, err := tuml.ReadFile[*Config](ctx, path) // 解析 TOML 配置文件
 	if err != nil {
 		return
+	}
+
+	if cfg.Log.Level == "" {
+		cfg.Log.Level = "INFO"
+	} else {
+		cfg.Log.Level = strings.ToUpper(cfg.Log.Level)
 	}
 
 	// 处理默认值

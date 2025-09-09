@@ -11,10 +11,10 @@ import (
 	"github.com/wangzhione/sbp/chain"
 )
 
-// ResponseWriterPanicError 自定义 5xx 当成 panic error
+// ResponseWriterPanicError 自定义 589 类似的 5xx 当成 panic error
 func ResponseWriterPanicError(w http.ResponseWriter) {
-	w.WriteHeader(599)
-	fmt.Fprintf(w, `{"code":599, "message:"Internal Server Panic Error"}`)
+	w.WriteHeader(589)
+	fmt.Fprintf(w, `{"code":"589", "message":"Internal Server Panic Error"}`)
 }
 
 // MainMiddleware 拦截器, 默认 serve 所以拦截器集中在这里

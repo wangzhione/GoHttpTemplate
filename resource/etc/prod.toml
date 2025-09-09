@@ -6,4 +6,4 @@ port = 8089
 # stoptime = "6000ms"  # 服务收到关闭请求后, 等待多少时间等现有业务收尾
 
 [log]
-level = "info" # debug | info | warn | error
+level = "INFO" # DEBUG | INFO | WARN | ERROR

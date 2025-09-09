@@ -12,11 +12,9 @@ import (
 	"github.com/wangzhione/sbp/system"
 
 	"github.com/wangzhione/gohttptemplate/configs"
-
-	_ "github.com/wangzhione/gohttptemplate/internal/logic"
 )
 
-// Init 启动之前的环境初始化 :)
+// Init 启动之前的环境初始化 :) 必须是 once
 func Init(ctx context.Context, path string) (err error) {
 	// init config
 	if err = configs.Init(ctx, path); err != nil {
@@ -25,16 +23,20 @@ func Init(ctx context.Context, path string) (err error) {
 
 	// slog 默认配置初始化
 	switch configs.G.Log.Level {
-	case "info":
+	case "DEBUG":
+		chain.EnableLevel = slog.LevelDebug
+	case "INFO":
 		chain.EnableLevel = slog.LevelInfo
-	case "warn":
+	case "WARN":
 		chain.EnableLevel = slog.LevelWarn
-	case "error":
+	case "ERROR":
 		chain.EnableLevel = slog.LevelError
 	}
-	if err = chain.InitSlogRotatingFile(); err != nil {
+	if err = chain.InitSLogRotatingFile(); err != nil {
 		// 如果 文件 日志有问题, 需要打印相关信息
 		slog.ErrorContext(ctx, "chain.InitSlogRotatingFile error", "error", err) // 退化成控制台输出
+
+		chain.InitSLog() // 默认尝试退化成控制台输出
 	}
 
 	// 输出 CPU Core 的数量, 输出处理器 P 的数量, 如果是容器, 像个数据不一定准确
@@ -49,7 +51,11 @@ func Init(ctx context.Context, path string) (err error) {
 		slog.String("GitCommitTime", system.GitCommitTime),
 	)
 
-	// init 操作, 放在这后面 👇
+	// 后续 init 操作, 放在 initlogic 里面
+	if err = initlogic(ctx); err != nil {
+		slog.ErrorContext(ctx, "initlogic error", "error", err)
+		panic(err)
+	}
 
 	return
 }
