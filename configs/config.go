@@ -46,6 +46,12 @@ func Init(ctx context.Context, path string) (err error) {
 		return
 	}
 
+	if cfg.Env.Mode == "" {
+		cfg.Env.Mode = "local"
+	} else {
+		cfg.Env.Mode = strings.ToLower(cfg.Env.Mode)
+	}
+
 	if cfg.Log.Level == "" {
 		cfg.Log.Level = "INFO"
 	} else {
@@ -63,4 +69,14 @@ func Init(ctx context.Context, path string) (err error) {
 
 	G = cfg
 	return
+}
+
+// IsOnline 判断当前是否为线上环境
+func (cfg *Config) IsOnline() bool {
+	switch cfg.Env.Mode {
+	case "prod", "production", "online", "preview", "pre":
+		return true
+	default:
+		return false
+	}
 }
