@@ -2,7 +2,7 @@ module github.com/wangzhione/gohttptemplate
 
 go 1.25
 
-require github.com/wangzhione/sbp v0.0.19
+require github.com/wangzhione/sbp v0.0.20-0.20250918073902-73f64541496b
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect

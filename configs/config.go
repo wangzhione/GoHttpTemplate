@@ -31,14 +31,6 @@ type Config struct {
 	} `toml:"mysql"`
 }
 
-var (
-	// DefaultServePort 默认的服务端口, 可以随着配置改变
-	DefaultServePort uint16 = 8089
-
-	// DefaultServeStopTime 服务等待时间, 默认 7 s
-	DefaultServeStopTime time.Duration = 7000 * time.Millisecond
-)
-
 // Init 初始化配置 G
 func Init(ctx context.Context, path string) (err error) {
 	cfg, err := tuml.ReadFile[*Config](ctx, path) // 解析 TOML 配置文件
@@ -60,12 +52,15 @@ func Init(ctx context.Context, path string) (err error) {
 
 	// 处理默认值
 	if cfg.Serve.Port <= 0 {
-		cfg.Serve.Port = DefaultServePort
+		cfg.Serve.Port = 8089 // 默认的服务端口, 可以随着配置改变
 	}
 
 	if cfg.Serve.StopTime <= 0 {
-		cfg.Serve.StopTime = DefaultServeStopTime
+		cfg.Serve.StopTime = 7000 * time.Millisecond // 服务等待时间, 默认 7 s
 	}
+
+	// 构建全局的是否是线上环境变量
+	Online = cfg.IsOnline()
 
 	G = cfg
 	return
