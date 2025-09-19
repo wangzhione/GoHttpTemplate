@@ -134,23 +134,5 @@ $env:CGO_ENABLED="0"; $env:GOOS="linux"; $env:GOARCH="amd64"; go build -trimpath
 - [Pingcap General advice](https://pingcap.github.io/style-guide/general.html)
 - [Uber Go Style Guide](https://github.com/uber-go/guide/blob/master/style.md)
 
-## **git 小笔记**
-
-```shell
-git tag
-
-git tag v0.0.2
-
-git tag -d v0.0.2
-git push origin :refs/tags/v0.0.2
-
-git push origin --tags
-```
-
-```shell
--- 远端强制覆盖本地
-git fetch --all
-git reset --hard origin/master
-```
 
 
