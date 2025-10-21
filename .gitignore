@@ -54,3 +54,5 @@ output/
 logs/
 
 go.sum
+
+gohttptemplate
