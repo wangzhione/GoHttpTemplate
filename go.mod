@@ -3,7 +3,7 @@ module github.com/wangzhione/gohttptemplate
 go 1.25
 
 require (
-	github.com/wangzhione/sbp v0.0.20-0.20251021092905-f4321758e5ed
+	github.com/wangzhione/sbp v0.0.20-0.20251023073543-fae535f14fa0
 	go.etcd.io/etcd/client/v3 v3.6.5
 )
 
