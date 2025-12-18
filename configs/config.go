@@ -3,6 +3,7 @@ package configs
 
 import (
 	"context"
+	"log/slog"
 	"strings"
 	"time"
 
@@ -33,8 +34,9 @@ type Config struct {
 
 // Init 初始化配置 G
 func Init(ctx context.Context, path string) (err error) {
-	cfg, err := tuml.ReadFile[*Config](ctx, path) // 解析 TOML 配置文件
+	cfg, err := tuml.ReadFile[*Config](path) // 解析 TOML 配置文件
 	if err != nil {
+		slog.ErrorContext(ctx, "Failed to read config file", "path", path, "error", err)
 		return
 	}
 
