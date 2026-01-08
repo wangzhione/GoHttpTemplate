@@ -4,6 +4,7 @@ mode = "prod" # local | test | prod
 [serve]
 port = 8089
 # stoptime = "6000ms"  # 服务收到关闭请求后, 等待多少时间等现有业务收尾
+GOMAXPROCS = 0 # GOMAXPROCS 数量
 
 [log]
 level = "INFO" # DEBUG | INFO | WARN | ERROR

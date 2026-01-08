@@ -1,7 +1,7 @@
 #
 # 服务名称
 #
-BINARY := gohttptemplate
+BINARY := $(shell basename $(CURDIR) | tr A-Z a-z)
 
 #
 # 如果是 windows 请在 git bash 中运行 
@@ -14,12 +14,12 @@ BINARY := gohttptemplate
 
 # or
 
-# go build -ldflags="-s -w" -o $(BINARY) main.go ; go tool addr2line -e gohttptemplate {ptr}
+# go build -ldflags="-s -w" -o $(BINARY) main.go ; go tool addr2line -e $(BINARY) {ptr}
 
 .PHONY : all clean
 
 all :
-	go build -o $(BINARY) main.go
+	go build -trimpath -buildvcs=true -o $(BINARY) main.go
 
 # 清除操作
 clean :

@@ -1,0 +1,20 @@
+[Unit]
+Description=SegmentClips golang Services
+After=network.target
+
+[Service]
+Type=simple
+User=centos
+Group=centos
+WorkingDirectory={WorkingDirectory}
+ExecStart={ExecStart}
+Restart=always
+RestartSec=6
+
+KillMode=mixed
+LimitCORE=infinity
+LimitNOFILE=infinity
+LimitNPROC=infinity
+
+[Install]
+WantedBy=multi-user.target

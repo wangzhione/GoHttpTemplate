@@ -64,65 +64,32 @@ windows 编译 linux 版本
 $env:CGO_ENABLED="0"; $env:GOOS="linux"; $env:GOARCH="amd64"; go build -trimpath -buildvcs=true -o gohttptemplate main.go
 ```
 
-# 环境配置
+## Systemd 服务部署（物理机器）
 
-## vscode
+**部署命令（按顺序执行）：**
 
-`.vscode/setting.json`
+```bash
+cd ... && make
 
-```json
-{
+# 2. 复制服务文件
+sudo cp gohttptemplate.service /etc/systemd/system/
 
-    "go.toolsManagement.autoUpdate": true,
-    "go.testEnvVars": {},
-    "go.testFlags": [
-        "-v",
-        "-count=1"
-    ],
-    "go.useLanguageServer": true, // 启用 gopls 作为 Go 语言服务器
-    "editor.formatOnSave": true, // 每次保存时自动格式化代码
-    "gopls": {
-        "ui.diagnostic.staticcheck": true, // 启用 StaticCheck 代码分析
-        "ui.completion.usePlaceholders": true, // 启用代码补全占位符
-        "formatting.gofumpt": true, // 使用更严格的 gofumpt 代码格式
-        "hoverKind": "FullDocumentation" // 悬停时显示完整文档
-    },
-    "[go]": {
-        "editor.defaultFormatter": "golang.go",
-        "editor.formatOnSave": true // 可选：启用自动格式化
-    },
-    "go.testTimeout": "120s"
+# 3. 重新加载 systemd
+sudo systemctl daemon-reload
 
-}
+# 4. 启用开机自启
+sudo systemctl enable gohttptemplate
 
+# 5. 启动服务
+sudo systemctl start gohttptemplate
+
+# 6. 查看状态
+sudo systemctl status gohttptemplate
+
+sudo systemctl stop gohttptemplate
+
+sudo journalctl -u gohttptemplate -f    # 查看日志
 ```
-
-`.vscode/launch.json`
-
-```json
-{
-    // 使用 IntelliSense 了解相关属性。 
-    // 悬停以查看现有属性的描述。
-    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Launch Package",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${fileDirname}",
-
-            "args": [
-                "-f", "${fileDirname}/etc/prod.toml"
-            ]
-        }
-    ]
-}
-
-```
-
-随后就可以 F5 打断点, 开始 Debug
 
 # 项目克隆
 

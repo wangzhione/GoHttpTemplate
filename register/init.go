@@ -8,10 +8,9 @@ import (
 
 	_ "net/http/pprof"
 
+	"github.com/wangzhione/gohttptemplate/configs"
 	"github.com/wangzhione/sbp/chain"
 	"github.com/wangzhione/sbp/system"
-
-	"github.com/wangzhione/gohttptemplate/configs"
 )
 
 // Init 启动之前的环境初始化 :) 必须是 once
@@ -37,6 +36,11 @@ func Init(ctx context.Context, path string) (err error) {
 		slog.ErrorContext(ctx, "chain.InitSlogRotatingFile error", "error", err) // 退化成控制台输出
 
 		chain.InitSLog() // 默认尝试退化成控制台输出
+	}
+
+	// 主动设置 GOMAXPROCS 数量
+	if configs.G.Serve.GOMAXPROCS > 0 {
+		runtime.GOMAXPROCS(configs.G.Serve.GOMAXPROCS)
 	}
 
 	// 输出 CPU Core 的数量, 输出处理器 P 的数量, 如果是容器, 像个数据不一定准确
