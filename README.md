@@ -93,13 +93,9 @@ sudo journalctl -u gohttptemplate -f    # 查看日志
 
 # 项目克隆
 
-所有 gohttptemplate 部分, 不区分大小写, 统一替换你的新 名称. 
+**所有 gohttptemplate 部分, 不区分大小写, 统一替换你的新 名称.** 
 
-# 拓展信息
+# 技工拓展
 
-- [Effective Go](https://golang.org/doc/effective_go)
 - [Pingcap General advice](https://pingcap.github.io/style-guide/general.html)
-- [Uber Go Style Guide](https://github.com/uber-go/guide/blob/master/style.md)
-
-
 

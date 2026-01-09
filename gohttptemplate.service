@@ -4,10 +4,15 @@ After=network.target
 
 [Service]
 Type=simple
-User=centos
-Group=centos
+
+User={User}
+Group={Group}
+
+# cd {WorkingDirectory}
 WorkingDirectory={WorkingDirectory}
+# exec {ExecStart}
 ExecStart={ExecStart}
+
 Restart=always
 RestartSec=6
 

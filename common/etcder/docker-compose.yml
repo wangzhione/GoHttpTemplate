@@ -2,7 +2,7 @@
 
 services:
   etcd1:
-    image: registry.k8s.io/etcd:v3.6.4  # ✅ 使用官方最新 etcd 镜像 v3.6.4
+    image: registry.k8s.io/etcd:latest  # ✅ 使用官方最新 etcd 镜像 latest | 用于自行测试, 实战需要自己限定版本
     container_name: etcd1              # 容器名称，便于识别
     networks:
       - etcd-net                       # 加入自定义网络，节点间可互相访问
@@ -20,7 +20,7 @@ services:
       - ETCD_INITIAL_CLUSTER_STATE=new
 
   etcd2:
-    image: registry.k8s.io/etcd:v3.6.4
+    image: registry.k8s.io/etcd:latest
     container_name: etcd2
     networks:
       - etcd-net
@@ -38,7 +38,7 @@ services:
       - ETCD_INITIAL_CLUSTER_STATE=new
 
   etcd3:
-    image: registry.k8s.io/etcd:v3.6.4
+    image: registry.k8s.io/etcd:latest
     container_name: etcd3
     networks:
       - etcd-net
