@@ -10,7 +10,7 @@
 # Clean   : make clean
 #
 # windows
-# $env:CGO_ENABLED="0"; $env:GOOS="linux"; $env:GOARCH="amd64"; go build -trimpath -buildvcs=true -o $(BINARY) main.go
+# $env:CGO_ENABLED="0"; $env:GOOS="linux"; $env:GOARCH="amd64"; go build -buildvcs=true -o $(BINARY) main.go
 
 # or
 
@@ -19,7 +19,7 @@
 .PHONY : all clean
 
 all :
-	go build -trimpath -buildvcs=true
+	go build -buildvcs=true
 
 # 清除操作
 clean :
