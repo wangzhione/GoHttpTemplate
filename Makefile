@@ -1,7 +1,7 @@
 #
 # 服务名称
 #
-# BINARY := $(shell basename $(CURDIR) | tr A-Z a-z)
+BINARY := $(shell basename $(CURDIR) | tr A-Z a-z)
 
 #
 # 如果是 windows 请在 git bash 中运行 
@@ -19,7 +19,7 @@
 .PHONY : all clean
 
 all :
-	go build -buildvcs=true
+	go build -buildvcs=true -o $(BINARY) main.go
 
 # 清除操作
 clean :
