@@ -3,8 +3,10 @@ package main
 import (
 	"flag"
 	"fmt"
+	"math/rand"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/wangzhione/gohttptemplate/configs"
 	"github.com/wangzhione/gohttptemplate/handler/middleware"
@@ -22,6 +24,8 @@ var (
 )
 
 func main() {
+	rand.New(rand.NewSource(time.Now().UnixNano())) // 初始化随机数生成器
+
 	flag.Parse() // flag 参数初始化
 
 	ctx := chain.Context()
