@@ -43,7 +43,7 @@ func Init(ctx context.Context, path string) (err error) {
 		runtime.GOMAXPROCS(configs.G.Serve.GOMAXPROCS)
 	}
 
-	// 输出 CPU Core 的数量, 输出处理器 P 的数量, 如果是容器, 像个数据不一定准确
+	// 输出 CPU Core 的数量, 输出系统默认的处理器 P 的数量, 如果是容器, 这个数据不一定准确
 	slog.InfoContext(ctx, "main init start ...",
 		slog.Time("SystemBeginTime", system.BeginTime),
 		slog.Int("cpunumber", runtime.NumCPU()),
