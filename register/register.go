@@ -23,5 +23,10 @@ func initlogic(ctx context.Context) (err error) {
 
 	// do something register logic init here 👇
 
+	// mysql init
+	// if err = mysqllogic.Init(ctx, configs.G.MySQL.Main); err != nil {
+	// 	return err
+	// }
+
 	return
 }

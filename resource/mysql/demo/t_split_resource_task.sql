@@ -1,7 +1,7 @@
--- AI 应用 DEMO
-create database IF NOT EXISTS resource_ai_drama;
+-- AI 应用 DEMO - utf8mb4_general_ci 不区分大小写排序规则
+create database IF NOT EXISTS mysql_demo CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
-use resource_ai_drama;
+use mysql_demo;
 
 CREATE TABLE IF NOT EXISTS `t_split_resource_task` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'Primary key, t_audio_resource::id',

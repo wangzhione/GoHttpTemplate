@@ -38,12 +38,11 @@ func Init(ctx context.Context, path string) (err error) {
 		chain.InitSLog() // 默认尝试退化成控制台输出
 	}
 
-	// 主动设置 GOMAXPROCS 数量
+	// 主动根据配置设置 GOMAXPROCS P 的数量, 用于特殊情况下限制服务机器 CPU 资源的使用
 	if configs.G.Serve.GOMAXPROCS > 0 {
 		runtime.GOMAXPROCS(configs.G.Serve.GOMAXPROCS)
 	}
 
-	// 输出 CPU Core 的数量, 输出系统默认的处理器 P 的数量, 如果是容器, 这个数据不一定准确
 	slog.InfoContext(ctx, "main init start ...",
 		slog.Time("SystemBeginTime", system.BeginTime),
 		slog.Int("cpunumber", runtime.NumCPU()),
