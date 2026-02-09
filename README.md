@@ -13,8 +13,9 @@ go install golang.org/x/tools/cmd/gonew@latest
 # 2. 在要创建项目的父目录执行（不要进到已有非空目录里）
 gonew github.com/wangzhione/gohttptemplate@latest github.com/user/myproject
 
-# 3. 脚本替换
 cd myproject
+
+# 3. 执行关键词替换
 make gonew
 ```
 
