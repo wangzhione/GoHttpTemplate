@@ -1,0 +1,9 @@
+# gonew 文件替换规则
+# 这个文件配置需要替换的文件和内容
+
+# 文件路径中的替换
+# gohttptemplate 替换为 module 的最后部分 (如: github.com/user/myproject -> myproject)
+gohttptemplate -> {{ base .module }}
+
+# 内容中的替换
+github.com/wangzhione/gohttptemplate -> {{ .module }}

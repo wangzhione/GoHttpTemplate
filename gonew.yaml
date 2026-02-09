@@ -1,0 +1,4 @@
+params:
+  - name: module
+    type: string
+    description: Go module path (e.g., github.com/yourusername/yourproject)

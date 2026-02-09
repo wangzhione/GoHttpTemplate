@@ -1,5 +1,23 @@
 gohttptemplate
 
+# 快速开始
+
+## 使用 gonew 创建新项目
+
+本项目提供了 gonew 模板支持，可以快速创建新的 HTTP 服务项目。
+
+```bash
+go install golang.org/x/tools/cmd/gonew@latest
+
+# 创建新项目（将 github.com/myuser/myproject 替换为你的模块路径）
+gonew github.com/wangzhione/GoHttpTemplate@latest github.com/myuser/myproject
+```
+
+**说明：**
+- 自动将 `gohttptemplate` 替换为你的项目名（module 的最后部分）
+- 自动将 `github.com/wangzhione/gohttptemplate` 替换为你的 module 路径
+- 包括文件夹、go.mod、导入路径、service 文件等都会自动适配
+
 # 测试
 
 ## postman
@@ -10,7 +28,7 @@ gohttptemplate
 curl --location 'localhost:8089/health'
 ```
 
-# 编译
+# 部署指南
 
 ## docker
 
@@ -91,9 +109,25 @@ sudo systemctl stop gohttptemplate
 sudo journalctl -u gohttptemplate -f    # 查看日志
 ```
 
-# 项目克隆
+# 项目说明
 
-**所有 gohttptemplate 部分, 不区分大小写, 统一替换你的新 名称.** 
+本项目是一个 Go HTTP 服务的模板项目，支持以下功能：
+- RESTful API 服务框架
+- etcd 配置管理
+- MySQL 数据库集成
+- 中间件支持
+- Docker 容器化部署
+- Systemd 服务管理
+
+## 项目结构
+
+- `main.go` - 应用入口
+- `configs/` - 配置管理
+- `handler/` - HTTP 处理器和中间件
+- `internal/` - 内部业务逻辑
+- `register/` - 服务注册
+- `common/` - 通用工具（命令行、etcd 客户端等）
+- `resource/` - 资源文件（配置模板、数据库脚本）
 
 # 技工拓展
 
