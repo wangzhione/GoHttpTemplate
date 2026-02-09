@@ -7,16 +7,16 @@ gohttptemplate
 本项目提供了 gonew 模板支持，可以快速创建新的 HTTP 服务项目。
 
 ```bash
+# 1. 安装
 go install golang.org/x/tools/cmd/gonew@latest
 
-# 创建新项目（将 github.com/myuser/myproject 替换为你的模块路径）
-gonew github.com/wangzhione/GoHttpTemplate@latest github.com/myuser/myproject
-```
+# 2. 在要创建项目的父目录执行（不要进到已有非空目录里）
+gonew github.com/wangzhione/gohttptemplate@latest github.com/user/myproject
 
-**说明：**
-- 自动将 `gohttptemplate` 替换为你的项目名（module 的最后部分）
-- 自动将 `github.com/wangzhione/gohttptemplate` 替换为你的 module 路径
-- 包括文件夹、go.mod、导入路径、service 文件等都会自动适配
+# 3. 脚本替换
+cd myproject
+make gonew
+```
 
 # 测试
 
