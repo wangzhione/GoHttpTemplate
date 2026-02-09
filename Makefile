@@ -36,11 +36,23 @@ SED_INPLACE := sed -i ''
 endif
 
 # 用法: make gonew（NAME 取自 go.mod 第一行 module 路径最后一段）
+# README 中不替换 "gonew github.com/wangzhione/gohttptemplate ..." 该行（模板示例命令）
 
 gonew :
 	@[ -f go.mod ] || (echo "go.mod not found" && exit 1)
 	@[ -n "$(NAME)" ] || (echo "Could not get NAME from go.mod" && exit 1)
+	@echo "即将执行 gonew：将 gohttptemplate 替换为 $(NAME)，并修改 Dockerfile、README.md、.service、.gitignore。"; \
+	echo "是否继续? [y/N]"; \
+	read -r confirm; \
+	case "$$confirm" in [yY]) ;; *) echo "已取消"; exit 1;; esac
 	@$(SED_INPLACE) 's|gohttptemplate|$(NAME)|g' Dockerfile
 	@echo "Dockerfile: gohttptemplate -> $(NAME)"
-	@if [ -f gohttptemplate.service ]; then mv gohttptemplate.service $(NAME).service; echo "Renamed: gohttptemplate.service -> $(NAME).service"; fi
-	@printf '\n%s\n' "$(NAME)" >> .gitignore && echo ".gitignore: appended $(NAME)"	@echo "Done."
+	@$(SED_INPLACE) '/gonew github\.com\/wangzhione\/gohttptemplate/!s|gohttptemplate|$(NAME)|g' README.md
+	@echo "README.md: gohttptemplate -> $(NAME) (kept gonew example line)"
+	@if [ -f gohttptemplate.service ]; then \
+		mv gohttptemplate.service $(NAME).service; \
+		echo "Renamed: gohttptemplate.service -> $(NAME).service"; \
+	fi
+	@printf '\n%s\n' "$(NAME)" >> .gitignore
+	@echo ".gitignore: appended $(NAME)"
+	@echo "Done."
