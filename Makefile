@@ -27,18 +27,20 @@ clean :
 	-rm -rf *.exe
 	-rm -rf $(BINARY)
 
-# ---------- gonew：官方已改 go.mod/.go，此处只改 Dockerfile、service 文件名、.gitignore ----------
+# ---------------------------------------- gonew 衍生补充 ----------------------------------------
 NAME := $(shell head -1 go.mod | sed 's/^module //' | sed 's|.*/||')
+
 SED_INPLACE := sed -i
 ifeq ($(shell uname), Darwin)
 SED_INPLACE := sed -i ''
 endif
+
 # 用法: make gonew（NAME 取自 go.mod 第一行 module 路径最后一段）
+
 gonew :
 	@[ -f go.mod ] || (echo "go.mod not found" && exit 1)
 	@[ -n "$(NAME)" ] || (echo "Could not get NAME from go.mod" && exit 1)
 	@$(SED_INPLACE) 's|gohttptemplate|$(NAME)|g' Dockerfile
 	@echo "Dockerfile: gohttptemplate -> $(NAME)"
 	@if [ -f gohttptemplate.service ]; then mv gohttptemplate.service $(NAME).service; echo "Renamed: gohttptemplate.service -> $(NAME).service"; fi
-	@echo "$(NAME)" >> .gitignore && echo ".gitignore: appended $(NAME)"
-	@echo "Done."
+	@printf '\n%s\n' "$(NAME)" >> .gitignore && echo ".gitignore: appended $(NAME)"	@echo "Done."

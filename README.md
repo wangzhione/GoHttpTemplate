@@ -8,10 +8,10 @@ gohttptemplate
 
 ```bash
 # 1. 安装
-go install golang.org/x/tools/cmd/gonew@latest
+go install golang.org/x/tools/cmd/gonew
 
 # 2. 在要创建项目的父目录执行（不要进到已有非空目录里）
-gonew github.com/wangzhione/gohttptemplate@latest github.com/user/myproject
+gonew github.com/wangzhione/gohttptemplate github.com/user/myproject
 
 cd myproject
 
