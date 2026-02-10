@@ -19,9 +19,10 @@ type Config struct {
 	} `toml:"env"`
 
 	Serve struct {
-		Port       uint16        `toml:"port"`
-		StopTime   time.Duration `toml:"stoptime"`   // 停止时间配置格式 7s 或 2000ms
-		GOMAXPROCS int           `toml:"gomaxprocs"` // GOMAXPROCS 数量
+		Port        uint16        `toml:"port"`
+		StopTime    time.Duration `toml:"stoptime"`    // 停止时间配置格式 7s 或 2000ms
+		GOMAXPROCS  int           `toml:"gomaxprocs"`  // GOMAXPROCS 数量
+		PprofBearer string        `toml:"pprofbearer"` // Pprof Bearer Token, 为空则禁用 pprof 访问
 	} `toml:"serve"`
 
 	Log struct {

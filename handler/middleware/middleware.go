@@ -6,8 +6,10 @@ import (
 	"log/slog"
 	"net/http"
 	"runtime/debug"
+	"strings"
 	"time"
 
+	"github.com/wangzhione/gohttptemplate/configs"
 	"github.com/wangzhione/sbp/chain"
 )
 
@@ -17,7 +19,38 @@ func ResponseWriterPanicError(w http.ResponseWriter) {
 	fmt.Fprintf(w, `{"code":"589", "message":"Internal Server Panic Error"}`)
 }
 
+// ispprofpath 检查请求路径是否为 pprof 调试路由
+func ispprofpath(path string) bool {
+	return strings.HasPrefix(path, "/debug/pprof")
+}
+
+// token 通过 header "pprofbearer: Bearer <token>" 传递
+func verifypprofbearer(r *http.Request, pprofbearer string) bool {
+	if !ispprofpath(r.URL.Path) {
+		return true
+	}
+
+	pprofheader := r.Header.Get("pprofbearer")
+	if pprofheader == "" {
+		return false
+	}
+
+	// 解析 Bearer token 格式: "Bearer <token>"
+	const bearerprefix = "Bearer "
+	if len(pprofheader) > len(bearerprefix) && pprofheader[:len(bearerprefix)] == bearerprefix {
+		return pprofheader[len(bearerprefix):] == pprofbearer
+	}
+	return false
+}
+
+// ResponseWriterPprofUnauthorized 返回 pprof 未授权响应
+func ResponseWriterPprofUnauthorized(w http.ResponseWriter) {
+	w.WriteHeader(http.StatusUnauthorized)
+	fmt.Fprintf(w, `{"code":"401", "message":"Pprof Access Token Required or Invalid"}`)
+}
+
 // MainMiddleware 拦截器, 默认 serve 所以拦截器集中在这里
+// 自动从 configs.G.Serve.PprofToken 读取 pprof 访问令牌配置
 func MainMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now() // 记录请求开始时间
@@ -71,7 +104,7 @@ func MainMiddleware(next http.Handler) http.Handler {
 		}
 		w.Header().Set("Access-Control-Allow-Origin", origin) // 允许所有来源
 		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, UPDATE")
-		w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
+		w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, X-Request-Id, pprofbearer")
 		w.Header().Set("Access-Control-Expose-Headers", "Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Cache-Control, Content-Language, Content-Type")
 		w.Header().Set("Access-Control-Allow-Credentials", "true") // 允许跨域携带 Cookie
 
@@ -81,10 +114,23 @@ func MainMiddleware(next http.Handler) http.Handler {
 			return
 		}
 
-		// Step 2: serve http call logic 之前额外操作
+		// Step 2: pprof 路由的额外安全验证
+		if pprofBearer := configs.G.Serve.PprofBearer; pprofBearer != "" {
+			if !verifypprofbearer(r, pprofBearer) {
+				slog.WarnContext(r.Context(), "pprof access denied",
+					slog.String("method", r.Method),
+					slog.String("path", r.URL.Path),
+					slog.String("remoteAddr", r.RemoteAddr),
+				)
+				ResponseWriterPprofUnauthorized(w)
+				return
+			}
+		}
+
+		// Step 3: serve http call logic 之前额外操作
 
 		next.ServeHTTP(w, r)
 
-		// Step 3: serve http call logic 之后额外操作
+		// Step 4: serve http call logic 之后额外操作
 	})
 }
