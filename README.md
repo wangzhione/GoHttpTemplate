@@ -11,7 +11,7 @@ gohttptemplate
 go install golang.org/x/tools/cmd/gonew
 
 # 2. 在要创建项目的父目录执行（不要进到已有非空目录里）
-gonew github.com/wangzhione/gohttptemplate github.com/user/myproject
+gonew github.com/wangzhione/gohttptemplate@{lastest commit id} github.com/user/myproject
 
 cd myproject
 
@@ -85,42 +85,70 @@ $env:CGO_ENABLED="0"; $env:GOOS="linux"; $env:GOARCH="amd64"; go build -trimpath
 
 ## Systemd 服务部署（物理机器）
 
-**部署命令（按顺序执行）：**
+简要步骤：构建二进制 -> 安装 systemd 单元文件 -> 重新加载并启动服务。
+
+1. 构建（或把可执行文件复制到目标目录）：
 
 ```bash
+# 在项目目录构建（或使用交叉编译得到的二进制）
 cd ... && make
 
-# 2. 复制服务文件
+# 将二进制复制到 ...
+sudo cp gohttptemplate ...
+```
+
+2. 安装 `systemd` 服务文件：
+
+```bash
+# 将仓库中的 service 文件复制到 systemd 目录
 sudo cp gohttptemplate.service /etc/systemd/system/
 
-# 3. 重新加载 systemd
+# 如果需要，编辑 /etc/systemd/system/gohttptemplate.service 中的 ExecStart 路径或环境变量
 sudo systemctl daemon-reload
+```
 
-# 4. 启用开机自启
+3. 启用并启动服务：
+
+```bash
+# 开机自启
 sudo systemctl enable gohttptemplate
 
-# 5. 启动服务
+# 启动或重启
 sudo systemctl start gohttptemplate
+# 或者重启
+sudo systemctl restart gohttptemplate
+```
 
-# 6. 查看状态
+4. 常用查看与调试命令：
+
+```bash
+# 查看服务状态（包含最近几行日志）
 sudo systemctl status gohttptemplate
 
+# 停止服务
 sudo systemctl stop gohttptemplate
 
-sudo journalctl -u gohttptemplate -f    # 查看日志
+# 跟随日志输出（实时）
+sudo journalctl -u gohttptemplate -f
+
+# 查看最近 200 行日志
+sudo journalctl -u gohttptemplate -n 200
+
+# 如果修改了 service 文件，记得 reload + restart
+sudo systemctl daemon-reload && sudo systemctl restart gohttptemplate
 ```
+
+5. 简要排错建议：
+
+- 若 `status` 显示失败，先运行 `sudo journalctl -u gohttptemplate -n 200` 查看错误信息；
+- 确认 `ExecStart` 使用的是绝对路径且可执行，并且需要的配置文件或环境已就绪；
+- 若使用网络端口失败，检查防火墙或端口被占用情况；
+
+以上为常用 Systemd 部署与维护命令摘要，按需修改 `gohttptemplate.service` 中的路径与环境变量。
 
 # 项目说明
 
-本项目是一个 Go HTTP 服务的模板项目，支持以下功能：
-- RESTful API 服务框架
-- etcd 配置管理
-- MySQL 数据库集成
-- 中间件支持
-- Docker 容器化部署
-- Systemd 服务管理
-
-## 项目结构
+本项目是一个 Go HTTP 服务的模板项目
 
 - `main.go` - 应用入口
 - `configs/` - 配置管理
