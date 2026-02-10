@@ -75,9 +75,6 @@ func MainMiddleware(next http.Handler) http.Handler {
 				ResponseWriterPanicError(w)
 			}
 
-			// 确保 r.Body close, 避免 底层 net.Conn 长时间占用, 影响连接复用
-			r.Body.Close()
-
 			// 记录请求完成日志
 			slog.InfoContext(r.Context(), "HTTP request handler completed",
 				slog.String("method", r.Method),
