@@ -71,16 +71,16 @@ linux or mac 之间交叉编译
 
 ```
 # 1️⃣ 编译 Linux 版本（64-bit）
-CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o gohttptemplate main.go 
+GOOS=linux GOARCH=amd64 go build -buildvcs=true -o gohttptemplate main.go 
 
 # 2️⃣ 编译 macOS 版本（64-bit）
-CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o gohttptemplate main.go
+GOOS=darwin GOARCH=amd64 go build -buildvcs=true -o gohttptemplate main.go
 ```
 
 windows 编译 linux 版本
 
 ```
-$env:CGO_ENABLED="0"; $env:GOOS="linux"; $env:GOARCH="amd64"; go build -trimpath -buildvcs=true -o gohttptemplate main.go
+$env:GOOS="linux"; $env:GOARCH="amd64"; go build -buildvcs=true -o gohttptemplate main.go
 ```
 
 ## Systemd 服务部署（物理机器）
